@@ -1,0 +1,5 @@
+{
+  "trailingComma": "all",
+  "one-expression-per-line": true,
+  "singleQuote": true
+}
