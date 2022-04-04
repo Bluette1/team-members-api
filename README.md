@@ -46,4 +46,3 @@ Users are able to:
 - Website - [Marylene Sawyer](http://www.marylene.tech/)
 - GitHub - [@Bluette1](https://github.com/Bluette1)
 - Twitter - [@MaryleneSawyer](https://twitter.com/MaryleneSawyer)
-

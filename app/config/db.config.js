@@ -1,5 +1,7 @@
+'use strict';
+
 module.exports = {
-  HOST: "localhost",
+  HOST: 'localhost',
   PORT: 27017,
-  DB: "team_members_db",
+  DB: 'team_members_db',
 };
