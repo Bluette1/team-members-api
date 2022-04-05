@@ -9,7 +9,7 @@ const Member = mongoose.model(
     company: String,
     status: String,
     notes: String,
-  }),
+  }, {timestamps: true}),
 );
 
 module.exports = Member;

@@ -13,8 +13,8 @@ module.exports = function(app) {
   });
 
   app.get('/api/members', controller.getMembers);
-  app.get('/api/user/members', [verifyToken], controller.getAddedMembers);
-  app.get('/api/member', controller.getMember);
-  app.put('/api/member/:id', [verifyToken], controller.updateMember);
+  app.get('/api/users/:id/members', [verifyToken], controller.getMembersByUser);
+  app.get('/api/members/:id', controller.getMember);
+  app.put('/api/members/:id', [verifyToken], controller.updateMember);
   app.post('/api/members', [verifyToken], controller.addMember);
 };

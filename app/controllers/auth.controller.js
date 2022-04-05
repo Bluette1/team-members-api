@@ -3,8 +3,8 @@
 const db = require('../models');
 const User = db.user;
 
-var jwt = require('jsonwebtoken');
-var bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
@@ -29,7 +29,7 @@ exports.signup = (req, res) => {
 exports.signin = (req, res) => {
   User.findOne({
     username: req.body.username,
-  }).exec((err, user) => {
+  }).populate('members').exec((err, user) => {
     if (err) {
       res.status(500).send({message: 'Internal server error', err});
       return;
@@ -52,17 +52,14 @@ exports.signin = (req, res) => {
       expiresIn: 86400, // 24 hours
     });
 
-    var members = [];
-
-    for (let i = 0; i < user.members.length; i++) {
-      members.push(user.members[i].name);
-    }
     res.status(200).send({
       id: user._id,
       username: user.username,
       email: user.email,
-      members_added: members,
+      members: user.members,
       accessToken: token,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt
     });
   });
 };

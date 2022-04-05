@@ -3,6 +3,7 @@
 const seeder = require('mongoose-seed');
 const dbConfig = require('./app/config/db.config');
 const findMembers = require('./app/helpers/seed.helper');
+const bcrypt = require('bcryptjs');
 
 const MONGODB_URI = `mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`;
 seeder.connect(MONGODB_URI, function() {
@@ -45,7 +46,7 @@ seeder.connect(MONGODB_URI, function() {
           const user = {
             username: 'Jose Mourinho',
             email: 'jose.mourinho@united.com',
-            password: 'password',
+            password: bcrypt.hashSync('password', 8),
             members: memberIds,
           };
 

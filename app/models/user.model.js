@@ -14,7 +14,7 @@ const User = mongoose.model(
         ref: 'Member',
       },
     ],
-  }),
+  }, {timestamps: true}),
 );
 
 module.exports = User;
