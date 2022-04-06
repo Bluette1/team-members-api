@@ -1,5 +1,6 @@
 {
   "trailingComma": "all",
   "one-expression-per-line": true,
-  "singleQuote": true
+  "singleQuote": true,
+  "space-before-function-paren": false
 }
