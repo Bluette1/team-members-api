@@ -29,37 +29,42 @@ exports.signup = (req, res) => {
 exports.signin = (req, res) => {
   User.findOne({
     username: req.body.username,
-  }).populate('members').exec((err, user) => {
-    if (err) {
-      res.status(500).send({message: 'Internal server error', err});
-      return;
-    }
+  })
+    .populate('members')
+    .exec((err, user) => {
+      if (err) {
+        res.status(500).send({message: 'Internal server error', err});
+        return;
+      }
 
-    if (!user) {
-      return res.status(404).send({message: 'User Not found.'});
-    }
+      if (!user) {
+        return res.status(404).send({message: 'User Not found.'});
+      }
 
-    var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
+      var passwordIsValid = bcrypt.compareSync(
+        req.body.password,
+        user.password,
+      );
 
-    if (!passwordIsValid) {
-      return res.status(401).send({
-        accessToken: null,
-        message: 'Invalid Password!',
+      if (!passwordIsValid) {
+        return res.status(401).send({
+          accessToken: null,
+          message: 'Invalid Password!',
+        });
+      }
+
+      var token = jwt.sign({id: user.id}, secret, {
+        expiresIn: 86400, // 24 hours
       });
-    }
 
-    var token = jwt.sign({id: user.id}, secret, {
-      expiresIn: 86400, // 24 hours
+      res.status(200).send({
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        members: user.members,
+        accessToken: token,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+      });
     });
-
-    res.status(200).send({
-      id: user._id,
-      username: user.username,
-      email: user.email,
-      members: user.members,
-      accessToken: token,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt
-    });
-  });
 };

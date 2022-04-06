@@ -7,18 +7,12 @@
     "es6": true
   },
   "rules": {
-    "max-len": [
-      2,
-      120,
-      8
-    ],
+    "max-len": [2, 120, 8],
     "strict": "off"
   },
   "overrides": [
     {
-      "files": [
-        "**/*.test.js"
-      ],
+      "files": ["**/*.test.js"],
       "env": {
         "jest": true
       }

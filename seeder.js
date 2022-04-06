@@ -6,12 +6,12 @@ const findMembers = require('./app/helpers/seed.helper');
 const bcrypt = require('bcryptjs');
 
 const MONGODB_URI = `mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`;
-seeder.connect(MONGODB_URI, function() {
+seeder.connect(MONGODB_URI, function () {
   // Load Mongoose models
   seeder.loadModels(['app/models/member.model.js', 'app/models/user.model.js']);
 
   // Clear specified collections
-  seeder.clearModels(['Member', 'User'], function() {
+  seeder.clearModels(['Member', 'User'], function () {
     const members = [
       {
         name: 'Wayne Rooney',
@@ -40,7 +40,7 @@ seeder.connect(MONGODB_URI, function() {
       },
     ];
     // Callback to populate DB once collections have been cleared
-    seeder.populateModels(membersData, function() {
+    seeder.populateModels(membersData, function () {
       findMembers(['Wayne Rooney', 'Ryan Giggs', 'Zlatan Ibrahimovich']).then(
         (memberIds) => {
           const user = {
@@ -51,7 +51,7 @@ seeder.connect(MONGODB_URI, function() {
           };
 
           const userData = [{model: 'User', documents: [user]}];
-          seeder.populateModels(userData, function() {
+          seeder.populateModels(userData, function () {
             seeder.disconnect();
           });
         },
