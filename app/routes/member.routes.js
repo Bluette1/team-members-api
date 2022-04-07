@@ -16,5 +16,6 @@ module.exports = function (app) {
   app.get('/api/users/:id/members', [verifyToken], controller.getMembersByUser);
   app.get('/api/members/:id', controller.getMember);
   app.put('/api/members/:id', [verifyToken], controller.updateMember);
+  app.delete('/api/members/:id', [verifyToken], controller.deleteMember);
   app.post('/api/members', [verifyToken], controller.addMember);
 };
