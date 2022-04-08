@@ -29,7 +29,7 @@ Users are able to:
 ### Links
 
 - Solution URL: [https://github.com/Bluette1/team-members-api](https://github.com/Bluette1/team-members-api)
-- Live Site URL: []()
+- Live Site URL: [Team members API on heroku](https://team-members-api.herokuapp.com/)
 
 ## My process
 

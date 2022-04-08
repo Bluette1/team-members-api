@@ -3,7 +3,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const dbConfig = require('./app/config/db.config');
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
@@ -27,8 +26,8 @@ app.get('/', (req, res) => {
 });
 
 const db = require('./app/models');
-const MONGODB_URI =
-  `mongodb://${dbConfig.HOST}:${dbConfig.PORT}/` + `${dbConfig.DB}`;
+const MONGODB_URI = process.env.MONGODB_URI;
+
 db.mongoose
   .connect(MONGODB_URI, {
     useNewUrlParser: true,

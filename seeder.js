@@ -1,11 +1,14 @@
 'use strict';
 
 const seeder = require('mongoose-seed');
-const dbConfig = require('./app/config/db.config');
 const findMembers = require('./app/helpers/seed.helper');
 const bcrypt = require('bcryptjs');
 
-const MONGODB_URI = `mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`;
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
+const MONGODB_URI = process.env.MONGODB_URI;
 seeder.connect(MONGODB_URI, function () {
   // Load Mongoose models
   seeder.loadModels(['app/models/member.model.js', 'app/models/user.model.js']);

@@ -100,7 +100,6 @@ exports.getMembersByUser = (req, res) => {
         createdAt: member.createdAt,
         updatedAt: member.updatedAt,
       }));
-      console.log('Members: ', members);
       res.status(200).send(members);
     });
 };
