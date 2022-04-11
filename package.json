@@ -1,0 +1,53 @@
+{
+  "name": "team-members-api",
+  "version": "1.0.0",
+  "description": "The backend REST API for the team members app",
+  "main": "index.js",
+  "keywords": [
+    "Nodejs",
+    "Express",
+    "MongoDB",
+    "JWT"
+  ],
+  "scripts": {
+    "dev": "nodemon server.js",
+    "test": "jest",
+    "start": "node server.js",
+    "pretest": "eslint --ignore-path .gitignore .",
+    "pretest-format": "npm run pretest -- --fix",
+    "prettier-format": " ./node_modules/.bin/prettier . --single-quote --trailing-comma all --print-width 80 --write --no-bracket-spacing **/*.js",
+    "lint-format": "npm run pretest-format && npm run prettier-format",
+    "seed": "node seeder.js",
+    "migrate-up": "migrate-mongo up",
+    "migrate-down": "migrate-mongo down",
+    "migrate-status": "migrate-mongo status"
+  },
+  "author": "Marylene",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^8.12.0",
+    "eslint-plugin-jest": "^26.1.3",
+    "jest": "^27.5.1",
+    "nodemon": "^2.0.15",
+    "supertest": "^6.2.2"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "eslint-config-strongloop": "^2.1.0",
+    "express": "^4.17.3",
+    "jsonwebtoken": "^8.5.1",
+    "migrate-mongo": "^9.0.0",
+    "mongoose": "5.13.14",
+    "mongoose-seed": "^0.6.0",
+    "prettier": "^2.6.2"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  }
+}

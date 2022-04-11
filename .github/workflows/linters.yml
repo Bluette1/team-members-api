@@ -1,0 +1,20 @@
+name: Linters
+
+on: pull_request
+
+env:
+  FORCE_COLOR: 1
+
+jobs:
+  eslint:
+    name: ESLint
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+      - name: Setup ESLint
+        run: yarn add -D eslint eslint-config-strongloop prettier
+      - name: ESLint Report
+        run: npx eslint .
