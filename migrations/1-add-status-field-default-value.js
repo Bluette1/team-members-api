@@ -6,17 +6,12 @@ module.exports = {
   up: function (db) {
     return db
       .collection('members')
-      .updateMany(
-        { status: null },
-        { $set: { status: 'Active' } },
-        false,
-        true,
-      );
+      .updateMany({status: null}, {$set: {status: 'Active'}}, false, true);
   },
 
   down: function (db) {
     return db
       .collection('members')
-      .updateMany({}, { $unset: { status: '' } }, false, true);
+      .updateMany({}, {$unset: {status: ''}}, false, true);
   },
 };
