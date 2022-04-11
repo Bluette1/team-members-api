@@ -1,6 +1,6 @@
 # team-members
 
-Backend [site for the team-members site](https://github.com/Bluette1/team-members
+Backend [site for the team-members site](https://github.com/Bluette1/team-).
 
 ## Table of contents
 
