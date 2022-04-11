@@ -8,7 +8,7 @@ const Member = mongoose.model(
     {
       name: String,
       company: String,
-      status: String,
+      status: String, default: 'Active',
       notes: String,
     },
     {timestamps: true},

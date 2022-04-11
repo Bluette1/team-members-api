@@ -17,7 +17,10 @@
     "pretest-format": "npm run pretest -- --fix",
     "prettier-format": " ./node_modules/.bin/prettier . --single-quote --trailing-comma all --print-width 80 --write --no-bracket-spacing **/*.js",
     "lint-format": "npm run pretest-format && npm run prettier-format",
-    "seed": "node seeder.js"
+    "seed": "node seeder.js",
+    "migrate-up": "migrate-mongo up",
+    "migrate-down": "migrate-mongo down",
+    "migrate-status": "migrate-mongo status"
   },
   "author": "Marylene",
   "license": "MIT",
