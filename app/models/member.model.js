@@ -8,10 +8,10 @@ const Member = mongoose.model(
     {
       name: String,
       company: String,
-      status: { type: String, default: 'Active' },
+      status: {type: String, default: 'Active'},
       notes: String,
     },
-    { timestamps: true },
+    {timestamps: true},
   ),
 );
 
