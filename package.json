@@ -19,10 +19,10 @@
     "migrate-up": "migrate-mongo up",
     "migrate-down": "migrate-mongo down",
     "migrate-status": "migrate-mongo status",
-    "test": "NODE_ENV=test jest --testTimeout=10000 --detectOpenHandles --forceExit",
-    "test-ci": "NODE_ENV=ci jest --testTimeout=10000 --detectOpenHandles --forceExit",
-    "pretest": "NODE_ENV=test npm run migrate-down && NODE_ENV=test npm run migrate-up",
-    "pretest-ci": "NODE_ENV=ci npm run migrate-down && NODE_ENV=ci npm run migrate-up"
+    "test-dev": "NODE_ENV=test jest --testTimeout=10000 --detectOpenHandles --forceExit",
+    "test": "jest --testTimeout=10000 --detectOpenHandles --forceExit",
+    "pretest-dev": "NODE_ENV=test npm run migrate-down && NODE_ENV=test npm run migrate-up",
+    "pretest": "npm run migrate-down && npm run migrate-up"
   },
   "author": "Marylene",
   "license": "MIT",
