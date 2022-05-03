@@ -5,6 +5,12 @@ name: Test with jest
 
 on: pull_request
 
+env:
+  SECRET_KEY: T3STS3CR3T
+  MIGRATIONS_DIR: ci_migrations
+  MONGODB_URI: ${{secrets.MONGODB_URI}}
+  NODE_ENV: ci
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -20,4 +26,4 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: yarn install
-      - run: yarn test
+      - run: yarn pretest-ci && yarn test-ci

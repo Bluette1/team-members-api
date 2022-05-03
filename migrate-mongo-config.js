@@ -3,20 +3,19 @@
 if (process.env.NODE_ENV === 'development') {
   require('dotenv').config({path: '.env.development'});
 }
-
 if (process.env.NODE_ENV === 'test') {
   require('dotenv').config({path: '.env.test'});
 }
-const MONGODB_URL = process.env.MONGODB_URL;
-const DB = process.env.DB;
+if (process.env.NODE_ENV === undefined) {
+  require('dotenv').config();
+}
+
+const MONGODB_URI = process.env.MONGODB_URI;
 const MIGRATIONS_DIR = process.env.MIGRATIONS_DIR;
 
 const config = {
   mongodb: {
-    url: MONGODB_URL,
-
-    databaseName: DB,
-
+    url: MONGODB_URI,
     options: {
       useNewUrlParser: true, // removes a deprecation warning when connecting
       useUnifiedTopology: true, // removes a deprecating warning when connecting

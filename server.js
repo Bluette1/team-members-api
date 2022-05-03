@@ -7,9 +7,11 @@ const cors = require('cors');
 if (process.env.NODE_ENV === 'development') {
   require('dotenv').config({path: '.env.development'});
 }
-
 if (process.env.NODE_ENV === 'test') {
   require('dotenv').config({path: '.env.test'});
+}
+if (process.env.NODE_ENV === undefined) {
+  require('dotenv').config();
 }
 
 const app = express();

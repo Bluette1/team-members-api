@@ -1,11 +1,15 @@
 const request = require('supertest');
 const {app} = require('../server');
 const db = require('../app/models');
-require('dotenv').config({path: '.env.test'});
+
+if (process.env.NODE_ENV === 'test') {
+  require('dotenv').config({path: '.env.test'});
+}
+
 let server;
 
 beforeAll((done) => {
-  const MONGODB_URI= process.env.MONGODB_URI;
+  const MONGODB_URI = process.env.MONGODB_URI;
 
   db.mongoose
     .connect(MONGODB_URI, {
