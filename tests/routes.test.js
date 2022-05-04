@@ -33,23 +33,58 @@ afterAll((done) => {
   server.close();
   done();
 });
-describe('Auth Endpoints', () => {
-  test('should create a new registration', async () => {
-    const res = await request(server).post('/api/auth/signup').send({
-      username: 'test',
-      email: 'test@example.com',
-      password: 'password',
-    });
-    expect(res.statusCode).toEqual(201);
-    expect(res.body).toHaveProperty('username');
+
+describe('GET /api/members', () => {
+  test('should retrieve a list of members', async () => {
+    const res = await request(server).get('/api/members').send();
+    expect(res.statusCode).toEqual(200);
+    expect(Array.isArray(res.body)).toBeTruthy();
+  });
+});
+
+describe('POST /api/members', (done) => {
+  let accessToken;
+  beforeEach(async () => {
+    await request(server)
+      .post('/api/auth/signup')
+      .send({
+        username: 'test',
+        email: 'test@example.com',
+        password: 'password',
+      })
+      .then(async (res) => {
+        expect(res.statusCode).toEqual(201);
+        expect(res.body).toHaveProperty('username');
+        await request(server)
+          .post('/api/auth/signin')
+          .send({
+            username: 'test',
+            password: 'password',
+          })
+          .then((resp) => {
+            expect(resp.statusCode).toEqual(200);
+            expect(resp.body).toHaveProperty('username');
+            expect(resp.body).toHaveProperty('accessToken');
+            accessToken = resp.body.accessToken;
+          });
+      });
   });
 
-  test('should sign in successfully', async () => {
-    const res = await request(server).post('/api/auth/signin').send({
-      username: 'test',
-      password: 'password',
-    });
-    expect(res.statusCode).toEqual(200);
-    expect(res.body).toHaveProperty('username');
+  test('create a member successfully', () => {
+    expect(accessToken).toBeTruthy();
+    return request(server)
+      .post('/api/members')
+      .set('x-access-token', accessToken)
+      .send({
+        name: 'test',
+        company: 'company',
+        status: 'status',
+        notes: 'notes',
+      })
+      .expect(201)
+      .then((res) => {
+        expect(res.body).toHaveProperty('name');
+      })
+      .catch((err) => done(err));
   });
 });
