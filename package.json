@@ -12,8 +12,9 @@
   "scripts": {
     "dev": "NODE_ENV=development nodemon app.run.js",
     "start": "node app.run.js",
+    "lint": "eslint --ignore-path .gitignore . && ./node_modules/.bin/prettier . --single-quote --trailing-comma all --print-width 80 --no-bracket-spacing **/*.js",
     "eslint-format": "eslint --ignore-path .gitignore . --fix",
-    "prettier-format": " ./node_modules/.bin/prettier . --single-quote --trailing-comma all --print-width 80 --write --no-bracket-spacing **/*.js",
+    "prettier-format": "./node_modules/.bin/prettier . --single-quote --trailing-comma all --print-width 80 --write --no-bracket-spacing **/*.js",
     "lint-format": "npm run eslint-format && npm run prettier-format",
     "seed": "node seeder.js",
     "migrate-up": "migrate-mongo up",
@@ -22,7 +23,7 @@
     "test-dev": "NODE_ENV=test jest --testTimeout=10000 --detectOpenHandles --forceExit",
     "test": "jest --testTimeout=10000 --detectOpenHandles --forceExit",
     "pretest-dev": "NODE_ENV=test npm run migrate-down && NODE_ENV=test npm run migrate-up",
-    "pretest": "npm run migrate-down && npm run migrate-up"
+    "pretest": "npm run lint"
   },
   "author": "Marylene",
   "license": "MIT",
