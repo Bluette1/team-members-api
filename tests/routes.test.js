@@ -23,27 +23,24 @@ beforeAll((done) => {
       console.error('Connection error', err);
       process.exit();
     });
+
   server = app.listen(4000);
   done();
 });
 
 afterAll((done) => {
-  server.close();
   db.mongoose.disconnect();
+  server.close();
   done();
 });
 describe('Auth Endpoints', () => {
   test('should create a new registration', async () => {
-    await request(server)
-      .post('/api/auth/signup')
-      .send({
-        username: 'test',
-        email: 'test@example.com',
-        password: 'password',
-      })
-      .expect(201)
-      .expect((res) => {
-        expect(res.body).toHaveProperty('username');
-      });
+    const res = await request(server).post('/api/auth/signup').send({
+      username: 'test',
+      email: 'test@example.com',
+      password: 'password',
+    });
+    expect(res.statusCode).toEqual(201);
+    expect(res.body).toHaveProperty('username');
   });
 });
