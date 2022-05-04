@@ -31,3 +31,4 @@ jobs:
           CI: true
           MONGODB_URI: mongodb://localhost:27017/team_members_test_db
           SECRET_KEY: S3CR3T
+          NODE_ENV: ci
