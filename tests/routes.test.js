@@ -43,4 +43,13 @@ describe('Auth Endpoints', () => {
     expect(res.statusCode).toEqual(201);
     expect(res.body).toHaveProperty('username');
   });
+
+  test('should sign in successfully', async () => {
+    const res = await request(server).post('/api/auth/signin').send({
+      username: 'test',
+      password: 'password',
+    });
+    expect(res.statusCode).toEqual(200);
+    expect(res.body).toHaveProperty('username');
+  });
 });
