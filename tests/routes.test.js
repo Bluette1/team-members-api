@@ -40,7 +40,6 @@ describe('Auth Endpoints', () => {
       email: 'test@example.com',
       password: 'password',
     });
-    console.log('res', res);
     expect(res.statusCode).toEqual(201);
     expect(res.body).toHaveProperty('username');
   });
