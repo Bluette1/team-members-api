@@ -13,6 +13,7 @@ GET http://localhost:8080/api/public
 
 POST http://localhost:8080/api/auth/signin HTTP/1.1 
 content-type: application/json
+
 {
 "username": "test", "password": "password"
 }
@@ -31,6 +32,18 @@ x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNzBiYWJjZDFkYzE
 }
 
 ###
+GET  http://localhost:8080/api/members/6273633da9e6b2b9c41e2603 HTTP/1.1 
+content-type: application/json
+x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNzBiYWJjZDFkYzE2ZWUzODAzMDZmYiIsImlhdCI6MTY1MTcyNDk4MSwiZXhwIjoxNjUxODExMzgxfQ.xTu3EGRq--oSH3lS0xTXhooyPZkkXozrRrt6cGwRCso
+
+
+###
 DELETE  http://localhost:8080/api/members/627354dbd2fcb3a0cd94433b HTTP/1.1 
 content-type: application/json
 x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNzBiYWJjZDFkYzE2ZWUzODAzMDZmYiIsImlhdCI6MTY1MTcyNDk4MSwiZXhwIjoxNjUxODExMzgxfQ.xTu3EGRq--oSH3lS0xTXhooyPZkkXozrRrt6cGwRCso
+
+
+###
+GET http://localhost:8080/api/users/6270babcd1dc16ee380306fb/members HTTP/1.1 
+content-type: application/json
+x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNzBiYWJjZDFkYzE2ZWUzODAzMDZmYiIsImlhdCI6MTY1MTcyOTA1MywiZXhwIjoxNjUxODE1NDUzfQ.yfrrC_kgrwsjRp75sGj4dJaVBBH8dhOzhjxhnsu_mVo

@@ -34,6 +34,8 @@ afterAll((done) => {
   done();
 });
 let accessToken;
+let userId;
+let id;
 describe('Should retrieve a list of members', () => {
   test('GET /api/members', async () => {
     expect(true).toBe(true);
@@ -57,6 +59,7 @@ beforeAll(async () => {
     .then(async (res) => {
       expect(res.statusCode).toEqual(201);
       expect(res.body).toHaveProperty('username');
+      userId = res.body.id;
       await request(server)
         .post('/api/auth/signin')
         .send({
@@ -73,21 +76,6 @@ beforeAll(async () => {
 });
 
 describe('Create a member successfully ', () => {
-  beforeAll(async () => {
-    await request(server)
-      .post('/api/auth/signin')
-      .send({
-        username: 'test',
-        password: 'password',
-      })
-      .then((resp) => {
-        expect(resp.statusCode).toEqual(200);
-        expect(resp.body).toHaveProperty('username');
-        expect(resp.body).toHaveProperty('accessToken');
-        accessToken = resp.body.accessToken;
-      });
-  });
-
   test('POST /api/members', async () => {
     expect(accessToken).toBeTruthy();
     await request(server)
@@ -102,38 +90,36 @@ describe('Create a member successfully ', () => {
       .expect(201)
       .then((res) => {
         expect(res.body).toHaveProperty('name');
+        id = res.body._id;
       });
   });
 });
 
+test('GET /api/users/:id/members', async () => {
+  expect(accessToken).toBeTruthy();
+  expect(userId).toBeTruthy();
+  await request(server)
+    .get(`/api/users/${userId}/members`)
+    .set('x-access-token', accessToken)
+    .expect(200)
+    .then((res) => {
+      expect(Array.isArray(res.body)).toBeTruthy();
+      expect(res.body).toHaveLength(1);
+      expect(res.body[0].id).toBe(id);
+    });
+});
+
 describe('Remaining tests for member endpoints', () => {
-  let id;
-  beforeAll(async () => {
+  afterAll(async () => {
+    expect(accessToken).toBeTruthy();
+    expect(userId).toBeTruthy();
     await request(server)
-      .post('/api/auth/signin')
-      .send({
-        username: 'test',
-        password: 'password',
-      })
-      .then(async (resp) => {
-        expect(resp.statusCode).toEqual(200);
-        expect(resp.body).toHaveProperty('username');
-        expect(resp.body).toHaveProperty('accessToken');
-        accessToken = resp.body.accessToken;
-        await request(server)
-          .post('/api/members')
-          .set('x-access-token', accessToken)
-          .send({
-            name: 'test',
-            company: 'company',
-            status: 'status',
-            notes: 'notes',
-          })
-          .expect(201)
-          .then((res) => {
-            expect(res.body).toHaveProperty('name');
-            id = res.body._id;
-          });
+      .get(`/api/users/${userId}/members`)
+      .set('x-access-token', accessToken)
+      .expect(200)
+      .then((res) => {
+        expect(Array.isArray(res.body)).toBeTruthy();
+        expect(res.body).toHaveLength(0);
       });
   });
 
