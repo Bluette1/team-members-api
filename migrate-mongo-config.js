@@ -1,13 +1,21 @@
 // In this file you can configure migrate-mongo
 
-const dbConfig = require('./app/config/db.config');
+if (process.env.NODE_ENV === 'development') {
+  require('dotenv').config({path: '.env.development'});
+}
+if (process.env.NODE_ENV === 'test') {
+  require('dotenv').config({path: '.env.test'});
+}
+if (process.env.NODE_ENV === undefined) {
+  require('dotenv').config();
+}
+
+const MONGODB_URI = process.env.MONGODB_URI;
+const MIGRATIONS_DIR = process.env.MIGRATIONS_DIR;
 
 const config = {
   mongodb: {
-    url: `mongodb://${dbConfig.HOST}:${dbConfig.PORT}`,
-
-    databaseName: `${dbConfig.DB}`,
-
+    url: MONGODB_URI,
     options: {
       useNewUrlParser: true, // removes a deprecation warning when connecting
       useUnifiedTopology: true, // removes a deprecating warning when connecting
@@ -17,7 +25,7 @@ const config = {
   },
 
   // The migrations dir, can be an relative or absolute path. Only edit this when really necessary.
-  migrationsDir: 'migrations',
+  migrationsDir: MIGRATIONS_DIR,
 
   // The mongodb collection where the applied changes are stored. Only edit this when really necessary.
   changelogCollectionName: 'changelog',

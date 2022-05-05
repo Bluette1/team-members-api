@@ -46,12 +46,15 @@ exports.updateMember = async (req, res) => {
     notes,
   };
 
-  Member.findByIdAndUpdate(id, member).exec((err, member) => {
+  Member.findByIdAndUpdate(id, member, {
+    new: true,
+    useFindAndModify: false,
+  }).exec((err, updatedMember) => {
     if (err) {
       res.status(500).send({message: err});
       return;
     }
-    res.send(member);
+    res.status(200).send(updatedMember);
   });
 };
 
@@ -75,7 +78,7 @@ exports.deleteMember = async (req, res) => {
           res.status(500).send({message: err});
           return;
         }
-        res.status(204).send({message: 'Member was deleted successfully!'});
+        res.status(204).send();
       });
     });
   });

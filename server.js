@@ -3,7 +3,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-if (process.env.NODE_ENV !== 'production') {
+
+if (process.env.NODE_ENV === 'development') {
+  require('dotenv').config({path: '.env.development'});
+}
+if (process.env.NODE_ENV === 'test') {
+  require('dotenv').config({path: '.env.test'});
+}
+if (process.env.NODE_ENV === undefined) {
   require('dotenv').config();
 }
 
@@ -25,27 +32,8 @@ app.get('/', (req, res) => {
   res.json({message: 'Welcome to the team members application.'});
 });
 
-const db = require('./app/models');
-const MONGODB_URI = process.env.MONGODB_URI;
-
-db.mongoose
-  .connect(MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log('Successfully connected to MongoDB.');
-  })
-  .catch((err) => {
-    console.error('Connection error', err);
-    process.exit();
-  });
 // routes
 require('./app/routes/auth.routes')(app);
 require('./app/routes/member.routes')(app);
 
-// set port, listen for requests
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
-});
+module.exports = {app};
