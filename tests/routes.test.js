@@ -1,9 +1,9 @@
 const request = require('supertest');
-const {app} = require('../server');
+const { app } = require('../server');
 const db = require('../app/models');
 
 if (process.env.NODE_ENV === 'test') {
-  require('dotenv').config({path: '.env.test'});
+  require('dotenv').config({ path: '.env.test' });
 }
 
 let server;
@@ -33,46 +33,63 @@ afterAll((done) => {
   server.close();
   done();
 });
-
-describe('GET /api/members', () => {
-  test('should retrieve a list of members', async () => {
-    const res = await request(server).get('/api/members').send();
-    expect(res.statusCode).toEqual(200);
-    expect(Array.isArray(res.body)).toBeTruthy();
+let accessToken;
+describe('Should retrieve a list of members', () => {
+  test('GET /api/members', async () => {
+    expect(true).toBe(true);
+    await request(server).get('/api/members').send()
+      .then((res) => {
+        expect(res.statusCode).toEqual(200);
+        expect(Array.isArray(res.body)).toBeTruthy();
+      })
   });
+
+});
+beforeAll(async () => {
+  await request(server)
+    .post('/api/auth/signup')
+    .send({
+      username: 'test',
+      email: 'test@example.com',
+      password: 'password',
+    })
+    .then(async (res) => {
+      expect(res.statusCode).toEqual(201);
+      expect(res.body).toHaveProperty('username');
+      await request(server)
+        .post('/api/auth/signin')
+        .send({
+          username: 'test',
+          password: 'password',
+        })
+        .then((resp) => {
+          expect(resp.statusCode).toEqual(200);
+          expect(resp.body).toHaveProperty('username');
+          expect(resp.body).toHaveProperty('accessToken');
+          accessToken = resp.body.accessToken;
+        });
+    });
 });
 
-describe('POST /api/members', (done) => {
-  let accessToken;
-  beforeEach(async () => {
+describe('Create a member successfully ', () => {
+  beforeAll(async () => {
     await request(server)
-      .post('/api/auth/signup')
+      .post('/api/auth/signin')
       .send({
         username: 'test',
-        email: 'test@example.com',
         password: 'password',
       })
-      .then(async (res) => {
-        expect(res.statusCode).toEqual(201);
-        expect(res.body).toHaveProperty('username');
-        await request(server)
-          .post('/api/auth/signin')
-          .send({
-            username: 'test',
-            password: 'password',
-          })
-          .then((resp) => {
-            expect(resp.statusCode).toEqual(200);
-            expect(resp.body).toHaveProperty('username');
-            expect(resp.body).toHaveProperty('accessToken');
-            accessToken = resp.body.accessToken;
-          });
+      .then((resp) => {
+        expect(resp.statusCode).toEqual(200);
+        expect(resp.body).toHaveProperty('username');
+        expect(resp.body).toHaveProperty('accessToken');
+        accessToken = resp.body.accessToken;
       });
   });
 
-  test('create a member successfully', () => {
+  test('POST /api/members', async () => {
     expect(accessToken).toBeTruthy();
-    return request(server)
+    await request(server)
       .post('/api/members')
       .set('x-access-token', accessToken)
       .send({
@@ -85,6 +102,51 @@ describe('POST /api/members', (done) => {
       .then((res) => {
         expect(res.body).toHaveProperty('name');
       })
-      .catch((err) => done(err));
+  });
+
+});
+
+describe('Remaining tests for member endpoints', () => {
+  let id;
+  beforeAll(async () => {
+    await request(server)
+      .post('/api/auth/signin')
+      .send({
+        username: 'test',
+        password: 'password',
+      })
+      .then(async (resp) => {
+        expect(resp.statusCode).toEqual(200);
+        expect(resp.body).toHaveProperty('username');
+        expect(resp.body).toHaveProperty('accessToken');
+        accessToken = resp.body.accessToken;
+        await request(server)
+          .post('/api/members')
+          .set('x-access-token', accessToken)
+          .send({
+            name: 'test',
+            company: 'company',
+            status: 'status',
+            notes: 'notes',
+          })
+          .expect(201)
+          .then((res) => {
+            expect(res.body).toHaveProperty('name');
+            id = res.body._id
+          })
+      });
+  });
+
+  test('GET /api/members/:id', async () => {
+    expect(accessToken).toBeTruthy();
+    expect(id).toBeTruthy();
+    await request(server)
+      .get(`/api/members/${id}`)
+      .set('x-access-token', accessToken)
+      .expect(200)
+      .then((res) => {
+        expect(res.body).toHaveProperty('name');
+        expect(res.body._id).toEqual(id);
+      })
   });
 });
