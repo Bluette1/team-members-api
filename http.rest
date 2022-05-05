@@ -13,7 +13,24 @@ GET http://localhost:8080/api/public
 
 POST http://localhost:8080/api/auth/signin HTTP/1.1 
 content-type: application/json
+{
+"username": "test", "password": "password"
+}
+
+
+###
+POST http://localhost:8080/api/members HTTP/1.1 
+content-type: application/json
+x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNzBiYWJjZDFkYzE2ZWUzODAzMDZmYiIsImlhdCI6MTY1MTcyNDk4MSwiZXhwIjoxNjUxODExMzgxfQ.xTu3EGRq--oSH3lS0xTXhooyPZkkXozrRrt6cGwRCso
 
 {
-"username": "Jose Mourinho", "password": "password"
+  "name": "test",
+  "company": "company",
+  "status": "status",
+  "notes": "notes"
 }
+
+###
+DELETE  http://localhost:8080/api/members/627354dbd2fcb3a0cd94433b HTTP/1.1 
+content-type: application/json
+x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNzBiYWJjZDFkYzE2ZWUzODAzMDZmYiIsImlhdCI6MTY1MTcyNDk4MSwiZXhwIjoxNjUxODExMzgxfQ.xTu3EGRq--oSH3lS0xTXhooyPZkkXozrRrt6cGwRCso

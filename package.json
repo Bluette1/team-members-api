@@ -22,7 +22,7 @@
     "migrate-status": "migrate-mongo status",
     "test-dev": "NODE_ENV=test jest --testTimeout=180000 --detectOpenHandles --forceExit",
     "test": "jest --testTimeout=180000 --detectOpenHandles --forceExit",
-    "pretest-dev": "NODE_ENV=test npm run migrate-down && NODE_ENV=test npm run migrate-up",
+    "pretest-dev": "yarn lint-format && NODE_ENV=test npm run migrate-down && NODE_ENV=test npm run migrate-up",
     "pretest": "npm run lint"
   },
   "author": "Marylene",
