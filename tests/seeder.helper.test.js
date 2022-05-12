@@ -1,30 +1,16 @@
 const findMembers = require('../app/helpers/seed.helper');
 const db = require('../app/models');
-if (process.env.NODE_ENV === 'test') {
-  require('dotenv').config({path: '.env.test'});
-}
+const {connectDB, closeDB} = require('../db.server');
+
 const Member = db.member;
 
 beforeAll((done) => {
-  const MONGODB_URI = process.env.MONGODB_URI;
-
-  db.mongoose
-    .connect(MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    })
-    .then(() => {
-      console.log('Successfully connected to MongoDB.');
-    })
-    .catch((err) => {
-      console.error('Connection error', err);
-      process.exit();
-    });
+  connectDB();
   done();
 });
 
 afterAll((done) => {
-  db.mongoose.disconnect();
+  closeDB();
   done();
 });
 
@@ -67,7 +53,7 @@ describe('Seeder Helper Test', () => {
     });
   });
 
-  it('should test that the Seeder Helper `findMembers`async function is working correctly as expected', async () => {
+  it('should test that the Seeder Helper async function `findMembers` is working correctly as expected', async () => {
     return findMembers([
       'Wayne Rooney',
       'Ryan Giggs',
