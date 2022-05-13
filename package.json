@@ -23,7 +23,8 @@
     "test-dev": "NODE_ENV=test jest --testTimeout=180000 --detectOpenHandles --forceExit",
     "test": "jest --testTimeout=180000 --detectOpenHandles --forceExit",
     "pretest-dev": "yarn lint-format && NODE_ENV=test npm run migrate-down && NODE_ENV=test npm run migrate-up",
-    "pretest": "npm run lint"
+    "pretest": "npm run lint",
+    "test-local": "yarn pretest-dev && yarn test-dev"
   },
   "author": "Marylene",
   "license": "MIT",
