@@ -1,6 +1,6 @@
 const request = require('supertest');
-const {app} = require('../server');
-const {connectDB, closeDB} = require('../db.server');
+const {app} = require('../../server');
+const {connectDB, closeDB} = require('../../db.server');
 if (process.env.NODE_ENV === 'test') {
   require('dotenv').config({path: '.env.test'});
 }

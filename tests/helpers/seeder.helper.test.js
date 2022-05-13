@@ -1,6 +1,6 @@
-const findMembers = require('../app/helpers/seed.helper');
-const db = require('../app/models');
-const {connectDB, closeDB} = require('../db.server');
+const findMembers = require('../../app/helpers/seed.helper');
+const db = require('../../app/models');
+const {connectDB, closeDB} = require('../../db.server');
 
 const Member = db.member;
 
